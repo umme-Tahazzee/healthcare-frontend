@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import logo from '../../../app/assests/img/logo/mediflow-1.png'
+import Logo from "@/components/ui/logo";
 
 
 const links = [
@@ -15,12 +16,10 @@ export default function Footer() {
             <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-[2fr_1fr]">
                 <div className="max-w-sm">
                     {/* Logo */}
-                    <Link
-                        href="/"
+                    <Logo
                         className="mt-2"
-                    >
-                        <Image src={logo} alt='MediFlow' className='h-12 w-fit' />
-                    </Link>
+                        imageClassName="h-12 w-fit"
+                    />
                     <p className="mt-3 text-sm leading-relaxed text-slate-600">
                         Find trusted doctors and book your appointment online, without the
                         waiting room.

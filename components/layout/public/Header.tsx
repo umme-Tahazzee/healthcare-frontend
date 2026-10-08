@@ -4,6 +4,7 @@ import logo from '../../../app/assests/img/logo/mediflow-1.png'
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import Logo from '@/components/ui/logo';
 
 const routes = [
   { name: "Home", url: "/" },
@@ -40,12 +41,10 @@ export default function Header() {
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
         {/* Logo */}
-        <Link
-          href="/"
-          className="mt-2"
-        >
-           <Image src={logo} alt='MediFlow' className='h-12 w-full' />
-        </Link>
+        <Logo
+              className="mt-2"
+              imageClassName="h-12 w-full"
+        />
 
         {/* Desktop nav */}
         <nav aria-label="Main" className="hidden items-center gap-1 md:flex">
