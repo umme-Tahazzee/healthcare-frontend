@@ -9,7 +9,7 @@ import Logo from '@/components/ui/logo';
 const routes = [
   { name: "Home", url: "/" },
   { name: "About us", url: "/about-us" },
-  // aro route lagle ekhane add koro, e.g. { name: "Doctors", url: "/doctors" }
+  
 ];
 
 export default function Header() {
@@ -39,7 +39,7 @@ export default function Header() {
         scrolled ? "border-slate-200 shadow-sm" : "border-transparent"
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         {/* Logo */}
         <Logo
               className="mt-2"

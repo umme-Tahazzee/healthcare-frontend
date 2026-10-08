@@ -70,9 +70,9 @@ const values = [
 ];
 
 const team = [
-  { name: "Full Name", role: "Founder & CEO" }, // TODO
+  { name: "Abdullah Al Shahadath", role: "Founder & CEO" }, // TODO
   { name: "Full Name", role: "Head of Medical Network" }, // TODO
-  { name: "Full Name", role: "Lead Engineer" }, // TODO
+  { name: "Umme Tahazzee", role: "Lead Engineer" }, // TODO
   { name: "Full Name", role: "Patient Support Lead" }, // TODO
 ];
 
@@ -82,7 +82,8 @@ export default function AboutPage() {
   return (
     <main className="bg-secondary text-dark">
       {/* ===== Hero ===== */}
-      <section className="mx-auto grid max-w-6xl items-center gap-14 px-6 py-20 lg:grid-cols-[1.15fr_0.85fr] lg:py-28">
+      <section className="mx-auto grid max-w-7xl items-center gap-14 
+      px-6 py-20 lg:grid-cols-[1.15fr_0.85fr] lg:py-28">
         <div>
           <h1 className="text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
             Getting care shouldn&apos;t start with a phone queue.
@@ -96,7 +97,8 @@ export default function AboutPage() {
             <Button
             
               size="lg"
-              className="h-12 rounded-xl bg-primary px-7 text-base font-semibold text-navy hover:bg-primary/90"
+              className="h-12 rounded-xl bg-primary px-7 text-base 
+              font-semibold text-navy hover:bg-primary/90"
             >
               <Link href="/doctors">Find a doctor</Link>
             </Button>

@@ -24,16 +24,19 @@ const slots = ["9:00 AM", "10:30 AM", "11:15 AM", "2:00 PM", "3:30 PM", "5:00 PM
 
 const Hero = () => {
   return (
-    <section className="relative isolate overflow-hidden bg-background text-dark">
+    <section className="relative isolate overflow-hidden
+     bg-background text-dark">
 
 
-      <div className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-6xl items-center
+      <div className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-7xl items-center
        gap-16 px-4 py-16 sm:px-6 lg:grid-cols-[1.1fr_1fr] lg:py-20">
         {/* Left */}
         <div className="relative max-w-xl">
 
           {/* Badge */}
-          <p className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-primary backdrop-blur">
+          <p className="inline-flex items-center gap-2 rounded-full border
+           border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-semibold 
+           uppercase tracking-[0.2em] text-primary backdrop-blur">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
