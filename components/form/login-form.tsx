@@ -3,12 +3,17 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useForm } from "@tanstack/react-form"
+import {LoginZodSchema} from '@/validation'
+
 
 export default function LoginForm() {
   const form = useForm({
     defaultValues: {
       email: "",
       password: "",
+    },
+    validators : {
+       onSubmit: LoginZodSchema 
     },
     onSubmit: async ({ value }) => {
       console.log(value)
