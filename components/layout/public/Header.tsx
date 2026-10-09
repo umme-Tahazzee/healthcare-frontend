@@ -1,21 +1,51 @@
 "use client";
-import Image from 'next/image';
-import logo from '../../../app/assests/img/logo/mediflow-1.png'
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Logo from '@/components/ui/logo';
+import { useGetMe, useLogout } from '@/hooks';
+import { Button } from "@/components/ui/button";
+import { LogOut, User } from "lucide-react";
+import { toast, Toast } from "@/components/ui/toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 const routes = [
   { name: "Home", url: "/" },
   { name: "About us", url: "/about-us" },
-  
+
 ];
 
 export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const queryClient = useQueryClient()
+
+
+  const { data, isLoading } = useGetMe()
+
+  const { mutate: logout } = useLogout()
+
+  const handleLogout = () => {
+    logout(undefined, {
+      onSuccess: () => {
+        toast.add({
+          type: "success",
+          title: "Logout Successfully"
+        })
+        queryClient.removeQueries({queryKey:["user"]})
+
+      },
+      onError: () => {
+        toast.add({
+          type: "error",
+          title: "Logout failed",
+          description: "Something went wrong"
+        })
+      }
+    })
+  }
 
   // route change hole mobile menu bondho
   useEffect(() => {
@@ -35,15 +65,14 @@ export default function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full border-b bg-white/85 backdrop-blur transition-shadow ${
-        scrolled ? "border-slate-200 shadow-sm" : "border-transparent"
-      }`}
+      className={`sticky top-0 z-50 w-full border-b bg-white/85 backdrop-blur transition-shadow ${scrolled ? "border-slate-200 shadow-sm" : "border-transparent"
+        }`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
         {/* Logo */}
         <Logo
-              className="mt-2"
-              imageClassName="h-12 w-full"
+          className="mt-2"
+          imageClassName="h-12 w-full"
         />
 
         {/* Desktop nav */}
@@ -55,22 +84,39 @@ export default function Header() {
                 key={route.name}
                 href={route.url}
                 aria-current={active ? "page" : undefined}
-                className={`rounded-lg px-3.5 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-teal-700 ${
-                  active
-                    ? "bg-teal-50 text-primary"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-                }`}
+                className={`rounded-lg px-3.5 py-2 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-teal-700 ${active
+                  ? "bg-teal-50 text-primary"
+                  : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                  }`}
               >
                 {route.name}
               </Link>
             );
           })}
-          <Link
-            href="/login"
-            className="ml-3 rounded-lg bg-teal-700 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-teal-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
-          >
-            Login
-          </Link>
+
+          {
+            !isLoading && !data && (
+              <Button
+                variant={"outline"}
+                render={<Link href='/login' >Login</Link>}
+                nativeButton={false}
+                className="bg-primary text-white"
+              >
+                Login
+              </Button>
+            )}
+
+
+          {!isLoading && data && (
+            <Button
+              variant="destructive"
+              onClick={handleLogout}   // useLogout mutation
+            >
+              <LogOut className="mr-2 size-4" />
+              Logout
+            </Button>
+          )}
+
         </nav>
 
         {/* Mobile toggle */}
@@ -104,9 +150,8 @@ export default function Header() {
       {/* Mobile menu */}
       <div
         id="mobile-menu"
-        className={`grid transition-[grid-template-rows] duration-200 md:hidden ${
-          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-        }`}
+        className={`grid transition-[grid-template-rows] duration-200 md:hidden ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+          }`}
       >
         <nav
           aria-label="Mobile"
@@ -121,22 +166,21 @@ export default function Header() {
                   href={route.url}
                   tabIndex={open ? 0 : -1}
                   aria-current={active ? "page" : undefined}
-                  className={`rounded-lg px-3 py-3 text-base font-medium ${
-                    active
-                      ? "bg-teal-50 text-teal-800"
-                      : "text-slate-700 hover:bg-slate-100"
-                  }`}
+                  className={`rounded-lg px-3 py-3 text-base font-medium ${active
+                    ? "bg-teal-50 text-teal-800"
+                    : "text-slate-700 hover:bg-slate-100"
+                    }`}
                 >
                   {route.name}
                 </Link>
               );
             })}
             <Link
-              href="/doctors"
+              href="/login"
               tabIndex={open ? 0 : -1}
               className="mt-2 rounded-lg bg-teal-700 px-4 py-3 text-center text-base font-semibold text-white hover:bg-teal-800"
             >
-              Find a doctor
+              Login
             </Link>
           </div>
         </nav>

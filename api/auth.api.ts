@@ -13,3 +13,18 @@ export  function userLogin(payload: user) {
          body: payload
      })
 }
+
+
+export  function getMe() {
+     return apiClient("/auth/me", {
+         method : "get",
+      
+     })
+}
+
+
+export  function userLogout() {
+     return apiClient("/auth/logout", {
+         method : "POST",
+     })
+}

@@ -21,12 +21,8 @@ import { Spinner } from "../ui/spinner"
 
 export default function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
 
-
-
   const [showPassword, setShowPassword] = useState(false)
   const router = useRouter();
-
-
   const { mutate: login, isPending: loginPending } = useLogin()
 
   const form = useForm({
