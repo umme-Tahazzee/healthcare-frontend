@@ -66,10 +66,10 @@ export default function Header() {
             );
           })}
           <Link
-            href="/doctors"
+            href="/login"
             className="ml-3 rounded-lg bg-teal-700 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-teal-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-700"
           >
-            Find a doctor
+            Login
           </Link>
         </nav>
 
