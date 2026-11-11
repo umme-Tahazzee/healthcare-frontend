@@ -10,13 +10,15 @@ import { useForm } from "@tanstack/react-form"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { FieldError } from "@/components/ui/field"
+import { FieldError, FieldSeparator } from "@/components/ui/field"
 import { LoginZodSchema } from "@/validation"
 import loginImage from "@/app/assests/img/authentication/doctor.jpg"
 import { useLogin } from "@/hooks"
 import { useRouter } from "next/navigation"
 import { toast } from "../ui/toast"
 import { Spinner } from "../ui/spinner"
+import { GoogleLogin } from "@react-oauth/google"
+import GoogleLoginComponents from "../modules/google-login/GoogleLoginComponents"
 
 
 export default function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
@@ -27,8 +29,8 @@ export default function LoginForm({ className, ...props }: React.ComponentProps<
 
   const form = useForm({
     defaultValues: {
-      email: "cse262@gmail.com",
-      password: "aA@12345678",
+      email: "",
+      password: "",
     },
     validators: {
       onChange: LoginZodSchema,
@@ -42,7 +44,7 @@ export default function LoginForm({ className, ...props }: React.ComponentProps<
       login(loginData, {
         onSuccess: (res) => {
           console.log(res);
-          toast.add({ type: "success", title: "Login Successfully"})
+          toast.add({ type: "success", title: "Login Successfully" })
           router.push('/')
 
         },
@@ -83,7 +85,7 @@ export default function LoginForm({ className, ...props }: React.ComponentProps<
             <div className="flex size-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-md shadow-primary/30">
               <Stethoscope className="size-5" />
             </div>
-            <span className="text-lg font-semibold tracking-tight">PH Healthcare</span>
+            <span className="text-lg font-semibold tracking-tight">Healthcare</span>
           </div>
 
           {/* Header */}
@@ -197,7 +199,9 @@ export default function LoginForm({ className, ...props }: React.ComponentProps<
             <Button
               type="submit"
               disabled={loginPending}
-              className="h-12 w-full rounded-xl text-base font-semibold shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/30 active:translate-y-0"
+              className="h-12 w-full rounded-xl text-base 
+              font-semibold transition-all hover:-translate-y-0.5 
+               active:translate-y-0"
             >
               {loginPending ? (
                 <>
@@ -211,6 +215,10 @@ export default function LoginForm({ className, ...props }: React.ComponentProps<
 
 
           </form>
+          <FieldSeparator className="mt-4 mb-4">Or</FieldSeparator>
+
+          <GoogleLoginComponents />
+
 
           <p className="mt-8 text-center text-sm text-muted-foreground">
             Don&apos;t have an account?{" "}

@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import Logo from '@/components/ui/logo';
 import { useGetMe, useLogout } from '@/hooks';
 import { Button } from "@/components/ui/button";
-import { LogOut, User } from "lucide-react";
-import { toast, Toast } from "@/components/ui/toast";
+import { LogOut } from "lucide-react";
+import { toast } from "@/components/ui/toast";
 import { useQueryClient } from "@tanstack/react-query";
 
 const routes = [

@@ -9,5 +9,5 @@ export const LoginZodSchema = z.object({
 		.regex(/[A-Z]/, "Password must contain atleast 1 Uppercase Letter")
 
 		.regex(/[0-9]/, "Password must contain atleast 1 Number")
-		.regex(/[^A-Za-z0-9]/, "Password must contain atleast 1 Special Character"),
+		
 });
