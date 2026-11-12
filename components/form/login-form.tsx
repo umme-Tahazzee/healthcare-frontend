@@ -19,6 +19,7 @@ import { toast } from "../ui/toast"
 import { Spinner } from "../ui/spinner"
 import { GoogleLogin } from "@react-oauth/google"
 import GoogleLoginComponents from "../modules/google-login/GoogleLoginComponents"
+import z from "zod"
 
 
 export default function LoginForm({ className, ...props }: React.ComponentProps<"div">) {
@@ -27,11 +28,18 @@ export default function LoginForm({ className, ...props }: React.ComponentProps<
   const router = useRouter();
   const { mutate: login, isPending: loginPending } = useLogin()
 
+
+  type LoginValues = z.infer<typeof LoginZodSchema>
+
+  const defaultValues: LoginValues = {
+    email: "",
+    password: "",
+  }
+
+
+
   const form = useForm({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    defaultValues,
     validators: {
       onChange: LoginZodSchema,
       onSubmit: LoginZodSchema,
@@ -43,7 +51,7 @@ export default function LoginForm({ className, ...props }: React.ComponentProps<
       }
       login(loginData, {
         onSuccess: (res) => {
-          console.log(res);
+          
           toast.add({ type: "success", title: "Login Successfully" })
           router.push('/')
 

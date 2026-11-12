@@ -4,7 +4,9 @@ import type {
     GoogleOAuthPayload,
     LoginPayload,
     RegisterPayload,
+    ResetPasswordPayload,
     User,
+    VerifyemailPayload,
 } from "@/types/auth"
 
 export function userRegister(payload: RegisterPayload) {
@@ -35,6 +37,27 @@ export function userLogout() {
 
 export function googleOAuth(payload: GoogleOAuthPayload) {
     return apiClient<ApiResponse<User>>("/auth/google", {
+        method: "POST",
+        body: payload,
+    })
+}
+
+export function userVerifyEmail(payload: VerifyemailPayload) {
+    return apiClient<ApiResponse<User>>("/auth/verify-email", {
+        method: "POST",
+        body: payload,
+    })
+}
+
+export function userForgotPassword(payload: { email: string }) {
+    return apiClient<ApiResponse<null>>("/auth/forgot-password", {
+        method: "POST",
+        body: payload,
+    })
+}
+
+export function userResetPassword(payload: ResetPasswordPayload) {
+    return apiClient<ApiResponse<null>>("/auth/reset-password", {
         method: "POST",
         body: payload,
     })
