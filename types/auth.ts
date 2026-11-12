@@ -20,6 +20,15 @@ export interface GoogleOAuthPayload {
     idToken: string
 }
 
+export interface VerifyemailPayload {
+      email : string,
+      otp : string
+}
+export interface ResetPasswordPayload {
+   email : string
+   newPassword : string
+   otp : string
+}
 // Backend er response shape onujayi adjust koro
 export interface ApiResponse<T> {
     success: boolean
