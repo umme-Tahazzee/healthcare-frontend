@@ -3,14 +3,29 @@ import { confirmPasswordSchema, emailSchema, passwordSchema } from "./shared.val
 
 export const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB
 
-const fileArray = (max: number) =>
+export const ACCEPTED_FILE_TYPES = [
+  'application/pdf',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'image/png',
+  'image/jpeg',
+
+]
+
+export function isAcceptedFileSize(fileSize: number) {
+  return fileSize <= MAX_FILE_SIZE
+}
+
+export function isAcceptedFileType(fileType: string) {
+  return ACCEPTED_FILE_TYPES.includes(fileType)
+}
+
+
+const requiredFile = (label: string) =>
   z
-    .array(z.file())
-    .max(max, `Maximum ${max} file(s) allowed`)
-    .refine(
-      (files) => files.every((f) => f.size <= MAX_FILE_SIZE),
-      "Each file must be 5MB or smaller"
-    )
+    .file({ error: `${label} is required` })
+    .max(MAX_FILE_SIZE, "File must be 5MB or smaller")
+    .mime(ACCEPTED_FILE_TYPES, "Only PDF, DOC, DOCX, PNG, JPG files are allowed")
 
 export const DoctorApplyZodSchema = z
   .object({
@@ -34,8 +49,8 @@ export const DoctorApplyZodSchema = z
       z.coerce.number().min(0, "Cannot be negative").optional()
     ),
 
-    resume: fileArray(1),
-    additionalFile: fileArray(5),
+    resume: requiredFile("Resume"),
+    additionalFile: requiredFile("Additional file").nullable().optional(),
   })
   .refine((d) => d.password === d.confirmPassword, {
     message: "Passwords do not match",

@@ -24,7 +24,7 @@ import GoogleLoginComponents from "@/components/modules/google-login/GoogleLogin
 import loginImage from "@/app/assests/img/authentication/doctor.jpg"
 import { useRegister } from "@/hooks"
 import { getErrorMessage } from "@/lib/error"
-import { DoctorApplyZodSchema, MAX_FILE_SIZE } from "@/validation/doctor.validation"
+import { DoctorApplyZodSchema, isAcceptedFileSize, isAcceptedFileType, MAX_FILE_SIZE } from "@/validation/doctor.validation"
 
 
 /* -------------------------------------------------------------------------- */
@@ -125,39 +125,27 @@ type FormFileInputProps = BaseFieldProps & {
     accept?: string
 }
 
-function FormFileInput({
-    field,
-    label,
-    description,
-    multiple,
-    accept,
-}: FormFileInputProps) {
+function FormFileInput({ field, label, description, accept }: FormFileInputProps) {
     const { isTouched, isValid } = field.state.meta
+    const file = field.state.value as File | null
 
     return (
         <Field>
             <FieldLabel htmlFor={field.name}>{label}</FieldLabel>
-            {/* File inputs are uncontrolled: never pass `value`. */}
             <Input
                 id={field.name}
                 name={field.name}
                 type="file"
-                multiple={multiple}
                 accept={accept}
                 onBlur={field.handleBlur}
-                onChange={(e) =>{
-                      const selected = e.target.files?.[0] ?? null
-                      if(!selected){
-                         field.handleChange(null)
-                         field.handleBlur()
-                         e.target.value = ""
-                         return
-                      }
-                      field.handleChange(selected)
-                      e.target.value = ""
-                } }
+                onChange={(e) => {
+                    field.handleChange(e.target.files?.[0] ?? null)
+                }}
                 aria-invalid={isTouched && !isValid}
             />
+            <span className="text-sm text-muted-foreground">
+                {file ? file.name : "PDF, DOC, DOCX, PNG, JPG (max 5MB)"}
+            </span>
             <FieldError field={field} />
             {description && <FieldDescription>{description}</FieldDescription>}
         </Field>
@@ -190,7 +178,7 @@ export function DoctorApplyForm({ className, ...props }: ComponentProps<"div">) 
 
         onSubmit: async ({ value }) => {
             console.log(value);
-            
+
             const { confirmPassword: _confirmPassword, ...payload } =
                 DoctorApplyZodSchema.parse(value)
 
@@ -199,7 +187,7 @@ export function DoctorApplyForm({ className, ...props }: ComponentProps<"div">) 
 
                 toast.add({ type: "success", title: "Account created" })
                 console.log("");
-                
+
             } catch (error) {
                 toast.add({
                     type: "error",
@@ -273,6 +261,7 @@ export function DoctorApplyForm({ className, ...props }: ComponentProps<"div">) 
                                         </form.Field>
 
                                         <form.Field name="confirmPassword">
+
                                             {(field) => (
                                                 <FormInput
                                                     field={field}
@@ -371,30 +360,15 @@ export function DoctorApplyForm({ className, ...props }: ComponentProps<"div">) 
                                 <div className="flex flex-col gap-2">
                                     <div className={TWO_COL}>
                                         <form.Field name="resume">
-                                            {(field) => (
-                                                <FormFileInput
-                                                    field={field}
-                                                    label="Resume"
-                                                    accept=".pdf,.doc,.docx"
-                                                />
-                                            )}
+                                            {(field) => <FormFileInput field={field} label="Resume" accept=".pdf,.doc,.docx" />}
                                         </form.Field>
 
+
                                         <form.Field name="additionalFile">
-                                            {(field) => (
-                                                <FormFileInput
-                                                    field={field}
-                                                    label="Additional files"
-                                                    accept=".pdf,.jpg,.jpeg,.png"
-                                                    multiple
-                                                />
-                                            )}
+                                            {(field) => <FormFileInput field={field} label="Additional file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />}
                                         </form.Field>
                                     </div>
-                                    <FieldDescription>
-                                        Resume is required (PDF/DOC, max 5MB). Additional files
-                                        are optional.
-                                    </FieldDescription>
+
                                 </div>
                             </FormSection>
 
@@ -406,8 +380,8 @@ export function DoctorApplyForm({ className, ...props }: ComponentProps<"div">) 
                                             disabled={!canSubmit || isPending}
                                             className="h-12 w-full rounded-xl text-base font-semibold transition-all hover:-translate-y-0.5 active:translate-y-0"
                                         >
-                                        
-                                            
+
+
                                             {isPending ? (
                                                 <>
                                                     <Spinner className="mr-2 size-4" />
