@@ -25,6 +25,7 @@ import loginImage from "@/app/assests/img/authentication/doctor.jpg"
 import { useRegister } from "@/hooks"
 import { getErrorMessage } from "@/lib/error"
 import { DoctorApplyZodSchema, isAcceptedFileSize, isAcceptedFileType, MAX_FILE_SIZE } from "@/validation/doctor.validation"
+import { X } from "lucide-react"
 
 
 /* -------------------------------------------------------------------------- */
@@ -144,7 +145,15 @@ function FormFileInput({ field, label, description, accept }: FormFileInputProps
                 aria-invalid={isTouched && !isValid}
             />
             <span className="text-sm text-muted-foreground">
-                {file ? file.name : "PDF, DOC, DOCX, PNG, JPG (max 5MB)"}
+                {file ? 
+                <div className="inline-flex">
+                <span>{file.name}
+                  <button onClick={()=> field.handleChange(null)}><X/></button>    
+                 </span>
+                </div> 
+                
+                : "PDF, DOC, DOCX, PNG, JPG (max 5MB)"
+                }
             </span>
             <FieldError field={field} />
             {description && <FieldDescription>{description}</FieldDescription>}
