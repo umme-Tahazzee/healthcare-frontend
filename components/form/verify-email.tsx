@@ -8,12 +8,7 @@ import { ArrowLeft, MailCheck } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import {
-    InputOTP,
-    InputOTPGroup,
-    InputOTPSeparator,
-    InputOTPSlot,
-} from "@/components/ui/input-otp"
+import {InputOTP, InputOTPGroup, InputOTPSeparator,InputOTPSlot} from "@/components/ui/input-otp"
 import { Spinner } from "@/components/ui/spinner"
 import { toast } from "@/components/ui/toast"
 
@@ -31,7 +26,6 @@ type Props = {
 export function VerfiyEmail({ email = "", className }: Props) {
     const router = useRouter()
     const [seconds, setSeconds] = useState(RESEND_SECONDS)
-
     const { mutate: verify, isPending } = useVerifyEmail()
 
     useEffect(() => {
